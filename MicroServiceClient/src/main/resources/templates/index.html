@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Complaint Management</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Complaint Management</a>
+    </nav>
+
+    <!-- Complaints Section -->
+    <div class="container mt-4">
+        <h2>Complaints List</h2>
+
+        <!-- Complaints Table -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Handler</th>
+                    <th>Status</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+				<th:block th:each="complaint : ${complaints}">
+				    <tr>
+				        <td th:text="${complaint.complaintId}"></td>
+				        <td th:text="${complaint.description}"></td>
+				        <td th:text="${#dates.format(complaint.date, 'yyyy-MM-dd')}"></td>
+				        <td th:if="${complaint.complaintHandler != null}" th:text="${complaint.complaintHandler.name}"></td>
+				        <td th:if="${complaint.complaintHandler == null}">N/A</td>
+				        <td th:text="${complaint.status}"></td>
+				        <form th:action="@{'/complaint-edit/' + ${complaint.complaintId}}" method="get">
+				            <td><button type="submit" class="btn btn-primary btn-sm">Edit</button></td>
+				        </form>
+				        <form th:action="@{'/complaint-delete/' + ${complaint.complaintId}}" method="post">
+				            <td><button type="submit" class="btn btn-danger btn-sm">Delete</button></td>
+				        </form>
+				    </tr>
+				</th:block>
+            </tbody>
+        </table>
+        
+    </div>
+		    <div class="container mt-5">
+		        <h2 class="mb-4">Add Complaint</h2>
+		        <a href="/complaint-add" class="btn btn-success">Create Complaint</a>
+		    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
